@@ -1,0 +1,29 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: payment-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment_db
+    username: ticketing
+    password: ticketing
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: payment-service
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+security:
+  jwt:
+    secret: VGhpcy1pcy1hLWRlbW8tc2VjcmV0LWtleS1mb3ItdGlja2V0aW5nLXBsYXRmb3JtLTEyMw==
+    issuer: ticket-booking-platform
+    expiration-minutes: 120
