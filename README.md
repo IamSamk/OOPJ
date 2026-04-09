@@ -68,6 +68,27 @@ mvn -f booking-service/pom.xml spring-boot:run "-Dspring-boot.run.profiles=dev"
 mvn -f notification-service/pom.xml spring-boot:run "-Dspring-boot.run.profiles=dev"
 ```
 
+### 4) One-command launcher (PowerShell)
+
+From project root:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start-all-dev.ps1
+```
+
+Optional flags:
+
+```powershell
+# Skip re-installing common module
+powershell -ExecutionPolicy Bypass -File .\scripts\start-all-dev.ps1 -SkipCommonInstall
+
+# If ports are already occupied, stop old processes and restart services
+powershell -ExecutionPolicy Bypass -File .\scripts\start-all-dev.ps1 -RestartPorts
+
+# Override Java and Maven paths
+powershell -ExecutionPolicy Bypass -File .\scripts\start-all-dev.ps1 -JavaHome "C:\Users\Samarth Kadam\.jdk\jdk-25" -MavenCmd "C:\Users\Samarth Kadam\.maven\maven-3.9.14\bin\mvn.cmd"
+```
+
 ## Full Local Stack Mode (PostgreSQL + Kafka + Redis)
 
 Use this mode when you want behavior closer to production.
@@ -126,6 +147,21 @@ mvn -f common/pom.xml install -DskipTests
 
 ## Troubleshooting
 
+### Frontend availability
+
+This repository currently contains backend microservices only. There is no separate React/Angular/Next frontend module yet.
+
+If you ran all services and are looking for a UI, there is no browser frontend page to open in this repository right now.
+
+You can still test APIs directly using Postman, curl, or VS Code REST client against these base URLs:
+
+- http://localhost:8081 (user-service)
+- http://localhost:8082 (event-service)
+- http://localhost:8083 (booking-service)
+- http://localhost:8084 (pricing-service)
+- http://localhost:8085 (payment-service)
+- http://localhost:8086 (notification-service)
+
 ### Port already in use
 
 On Windows:
@@ -135,6 +171,12 @@ Get-NetTCPConnection -LocalPort 8081 -State Listen
 ```
 
 Change the service port in that module's application.yml or stop the conflicting process.
+
+To stop and relaunch all services automatically, use:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\start-all-dev.ps1 -RestartPorts
+```
 
 ### PostgreSQL connection refused
 
