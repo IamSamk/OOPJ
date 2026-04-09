@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
+  kafka:
+    bootstrap-servers: localhost:9092
+    enabled: false
+
+security:
+  jwt:
+    secret: VGhpcy1pcy1hLWRlbW8tc2VjcmV0LWtleS1mb3ItdGlja2V0aW5nLXBsYXRmb3JtLTEyMw==
+    issuer: ticket-booking-platform
+    expiration-minutes: 120
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true
